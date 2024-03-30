@@ -1,6 +1,13 @@
-FROM openjdk:11
+FROM maven:3.8.4-openjdk-11
 MAINTAINER "Ashok"
-COPY target/spring-boot-docker-app.jar  /usr/app/
+
 WORKDIR /usr/app/
+
+# Copy the entire project directory into the Docker image
+COPY . /usr/app/
+
+# Run Maven build
+RUN mvn clean package
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "spring-boot-docker-app.jar"]
+ENTRYPOINT ["java", "-jar", "target/spring-boot-docker-app.jar"]
